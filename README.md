@@ -8,7 +8,7 @@ Idea: `source` reads User records from a DB. Millions of them.
 
 APIs:
 ```json5
-// GET /source/users/stream?start=1&limit=1000000
+// GET /source/users/stream?start=1&number=1000000
 [
   {id: 1, name: "Jane"},
   {id: 2, name: "Fred"},
@@ -18,7 +18,7 @@ APIs:
 ```
 ```json5
 
-// GET /proxy/users_with_fortunes/stream?start=1&limit=1000000
+// GET /proxy/users_with_fortunes/stream?start=1&number=1000000
 
 [
   {id: 1, name: "Jane", fortune: "Some of the things that live the longest in peoples' memories never really happened."},
@@ -26,10 +26,19 @@ APIs:
 ]
 ```
 
+## Run it
+
+Read from source:
+
+```bash
+while [[ 1 -le 5 ]]; do curl --no-buffer "http://127.0.0.1:8080/source/users/stream" > /dev/null; done
+```
+
 ## Status and ToDo
 
 - [ ] Add Source service
-    - [ ] Skeleton
+    - [x] Skeleton
+    - [x] Hard-coded data and infinite Stream
     - [ ] DB
     - [ ] Stream reader from DB
 - [ ] Add Proxy service
@@ -37,6 +46,7 @@ APIs:
     - [ ] Fortunes source
     - [ ] Stream proxy
 - [ ] Add Client
+    - [x] Mock it with Bash
     - [ ] Skeleton
     - [ ] Nice CLI output
 
