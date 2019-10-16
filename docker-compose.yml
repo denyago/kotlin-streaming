@@ -1,0 +1,13 @@
+version: "3.5"
+services:
+  db:
+    image: "postgres"
+    container_name: "name_denyago_streaming_pgdb"
+    environment:
+      - POSTGRES_USER=streaming_source
+      - POSTGRES_PASSWORD=1d0n0tc@Re
+      - POSTGRES_DB=streaming_source
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/scripts/:/docker-entrypoint-initdb.d

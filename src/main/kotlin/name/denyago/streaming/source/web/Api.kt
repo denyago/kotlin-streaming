@@ -8,7 +8,9 @@ import io.ktor.features.DefaultHeaders
 import io.ktor.response.respondTextWriter
 import io.ktor.routing.Routing
 import io.ktor.routing.get
-import name.denyago.streaming.source.db.Reader
+import name.denyago.streaming.source.db.DbReader
+import name.denyago.streaming.source.db.GeneratedReader
+import name.denyago.streaming.source.db.User
 
 fun Application.module() {
     install(DefaultHeaders)
@@ -18,15 +20,24 @@ fun Application.module() {
         get("/source/users/stream") {
             val start = (call.parameters["start"] ?: "1").toInt()
             val number = (call.parameters["number"] ?: "10000000").toInt()
+            val source = call.parameters["source"] ?: "generator"
             val end = start + number
-            val usersStream = Reader().selectUsers(start..end).iterator()
+
+            val stream = when (source) {
+                "jooq" -> DbReader(
+                    user = "streaming_source",
+                    password = "1d0n0tc@Re"
+                ).selectUsers(start..end).iterator()
+                "generator" -> GeneratedReader().selectUsers(start..end).iterator()
+                else -> emptyList<User>().stream().iterator()
+            }
 
             call.respondTextWriter {
                 write("[")
-                usersStream.forEach {
+                stream.forEach {
                     val json = """{"id":${it.id},"name":"${it.name}"}"""
                     write(json)
-                    if (usersStream.hasNext()) write(",")
+                    if (stream.hasNext()) write(",")
                     flush()
                 }
                 write("]")
