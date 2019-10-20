@@ -1,9 +1,7 @@
 package name.denyago.streaming.source.db
 
-import java.util.stream.Stream
-
 interface Readable {
-    fun selectUsers(ids: IntRange): Stream<User>
+    fun selectUsers(ids: IntRange): Iterator<User>
 }
 
 interface User {

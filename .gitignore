@@ -27,3 +27,4 @@ hs_err_pid*
 /.kotlintest/
 /build/
 /out/
+db/scripts/010_seed.sql
