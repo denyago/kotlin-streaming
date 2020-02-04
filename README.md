@@ -53,6 +53,7 @@ while [[ 1 -le 5 ]]; do curl --no-buffer "http://127.0.0.1:8080/source/users/str
     - [x] Mock it with Bash
     - [ ] Skeleton
     - [ ] Nice CLI output
+- [ ] Add Docker (for fun, [example 1](https://blog.baens.net/posts/step-by-step-kotlin/), [example 2](https://ktor.io/quickstart/quickstart/docker.html))
 
 ## Articles
 
